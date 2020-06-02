@@ -1,5 +1,7 @@
 <?php
 
+use App\Config\Config;
+
 if (!function_exists('base_path')) {
     function base_path($path = '')
     {
@@ -24,5 +26,12 @@ if (!function_exists('env')) {
             default:
                 return $value;
         }
+    }
+}
+
+if (!function_exists('config')) {
+    function config($key, $default = null)
+    {
+        return  ( new Config)->get($key, $default);
     }
 }

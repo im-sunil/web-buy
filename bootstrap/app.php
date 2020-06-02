@@ -11,10 +11,5 @@ try {
 require_once base_path('/bootstrap/container.php');
 
 $router = $container->get('router');
-require_once base_path('routes/api.php');
 
- (new \Laminas\HttpHandlerRunner\Emitter\SapiEmitter)->emit(
-     $router->dispatch(
-         $container->get('request')
-    )
- );
+require_once base_path('routes/api.php');

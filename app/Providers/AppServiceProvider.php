@@ -43,6 +43,7 @@ class AppServiceProvider extends AbstractServiceProvider implements BootableServ
 
         $strategy = new \League\Route\Strategy\JsonStrategy($responseFactory);
         $router = (new \League\Route\Router)->setStrategy($strategy);
+
         $container->share('router', $router);
         $container->share('request', $request);
     }
