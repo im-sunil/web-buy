@@ -4,11 +4,8 @@ namespace App\Providers;
 
 use Doctrine\ORM\EntityManager;
 use Laminas\Diactoros\Response;
-use League\Route\RouteCollection;
 use App\Controllers\HomeController;
-use Laminas\Diactoros\ServerRequestFactory;
-use League\Route\Strategy\ApplicationStrategy;
-use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
+use App\Controllers\Auth\RegisterController;
 use League\Container\ServiceProvider\AbstractServiceProvider;
 use League\Container\ServiceProvider\BootableServiceProviderInterface;
 
@@ -48,19 +45,21 @@ class AppServiceProvider extends AbstractServiceProvider implements BootableServ
         ->addArgument(EntityManager::class)
         ->addArgument(new Response);
 
+        //
+        $container->add(RegisterController::class)
+        ->addArgument(EntityManager::class)
+        ->addArgument(new Response);
+
         $container->add(Controller::class)
         ->addArgument(new Response);
-        // $container->add(EntityManager::class);
+
+        //
         $strategy = (new \League\Route\Strategy\ApplicationStrategy)->setContainer($container);
         $router = (new \League\Route\Router)->setStrategy($strategy);
-        //
-        //$responseFactory = new \Laminas\Diactoros\ResponseFactory();
-
-        //$jsonStrategy = new \League\Route\Strategy\JsonStrategy($responseFactory);
-
-        // $router = (new \League\Route\Router)->setStrategy($jsonStrategy);
+        ;
 
         $container->share('router', $router);
         $container->share('request', $request);
+        $container->share('response', new Response);
     }
 }
