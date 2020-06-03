@@ -34,6 +34,7 @@ class AppServiceProvider extends AbstractServiceProvider implements BootableServ
     public function register()
     {
         $container = $this->getContainer();
+        // register the reflection container as a delegate to enable auto wiring
 
         $request = \Laminas\Diactoros\ServerRequestFactory::fromGlobals(
             $_SERVER,
@@ -42,13 +43,22 @@ class AppServiceProvider extends AbstractServiceProvider implements BootableServ
             $_COOKIE,
             $_FILES
 );
+        // dump(new Response);
+        $container->add(HomeController::class)
+        ->addArgument(EntityManager::class)
+        ->addArgument(new Response);
 
+        $container->add(Controller::class)
+        ->addArgument(new Response);
+        // $container->add(EntityManager::class);
+        $strategy = (new \League\Route\Strategy\ApplicationStrategy)->setContainer($container);
+        $router = (new \League\Route\Router)->setStrategy($strategy);
         //
-        $responseFactory = new \Laminas\Diactoros\ResponseFactory();
+        //$responseFactory = new \Laminas\Diactoros\ResponseFactory();
 
-        $jsonStrategy = new \League\Route\Strategy\JsonStrategy($responseFactory);
+        //$jsonStrategy = new \League\Route\Strategy\JsonStrategy($responseFactory);
 
-        $router = (new \League\Route\Router)->setStrategy($jsonStrategy);
+        // $router = (new \League\Route\Router)->setStrategy($jsonStrategy);
 
         $container->share('router', $router);
         $container->share('request', $request);

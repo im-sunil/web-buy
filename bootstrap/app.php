@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Doctrine\ORM\EntityManager;
 use App\Controllers\HomeController;
 

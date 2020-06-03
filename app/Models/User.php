@@ -3,12 +3,18 @@
 namespace App\Models;
 
 use App\Models\Model;
+use Doctrine\ORM\EntityManager;
 
 /**
  * @Entity @Table(name="users")
  */
-class User extends Model
+class User extends Model implements \JsonSerializable
 {
+    public function __construct(EntityManager $db)
+    {
+        $this->db = $db;
+    }
+
     /**
      * @GeneratedValue(strategy="AUTO")
      * @Id @Column(name="id", type="integer", nullable=false)
@@ -53,4 +59,14 @@ class User extends Model
 
     /** @Column(type="datetime") */
     protected $updated_at;
+
+    public function jsonSerialize()
+    {
+        return [
+            'first_name' => $this->first_name,
+            'last_name' => $this->last_name,
+            'username' => $this->username,
+            'email' => $this->email,
+        ];
+    }
 }

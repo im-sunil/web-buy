@@ -2,11 +2,19 @@
 
 namespace App\Controllers;
 
-use App\Exceptions\ValidationException;
 use Valitron\Validator;
+use App\Exceptions\ValidationException;
 
-abstract class Controller
+class Controller
 {
+    protected $db ;
+    protected $response ;
+
+    public function __construct(Response $response)
+    {
+        $this->response = $response;
+    }
+
     public function validate($request, array $rules)
     {
         $validator = new Validator($request->getParsedBody());
@@ -18,5 +26,11 @@ abstract class Controller
         }
 
         return $request->getParsedBody();
+    }
+
+    public function json($data = [], $status = 200)
+    {
+        $this->response->getBody()->write(json_encode($data));
+        return $this->response->withAddedHeader('content-type', 'application/json')->withStatus($status);
     }
 }
