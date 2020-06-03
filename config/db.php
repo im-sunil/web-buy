@@ -7,6 +7,6 @@ return [
         'dbname' => env('DB_DATABASE', 'webuy'),
         'user' => env('DB_USERNAME', 'root'),
         'password' => env('DB_PASSWORD', ''),
-        'port' => env('DB_PORT')
+        'port' => env('DB_PORT', 3306)
     ]
 ];

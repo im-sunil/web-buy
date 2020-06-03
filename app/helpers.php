@@ -15,18 +15,47 @@ if (!function_exists('env')) {
         $value = getenv($key);
 
         if ($value === false) {
-            return $default;
+            return value($default);
         }
 
         switch (strtolower($value)) {
-            case $value === 'true':
-                return true;
-            case $value === 'false':
-                return false;
-            default:
-                return $value;
-        }
+        case 'true':
+        case '(true)':
+            return true;
+
+        case 'false':
+        case '(false)':
+            return false;
+
+        case 'empty':
+        case '(empty)':
+            return '';
+
+        case 'null':
+        case '(null)':
+            return;
     }
+
+        if (startsWith($value, '"') && endsWith($value, '"')) {
+            return substr($value, 1, -1);
+        }
+
+        return $value;
+    }
+}
+function endsWith($string, $endString)
+{
+    $len = strlen($endString);
+    if ($len == 0) {
+        return true;
+    }
+    return substr($string, -$len) === $endString;
+}
+
+function startsWith($string, $startString)
+{
+    $len = strlen($startString);
+    return substr($string, 0, $len) === $startString;
 }
 
 if (!function_exists('config')) {

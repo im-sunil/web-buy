@@ -1,8 +1,5 @@
 <?php
 
-use Doctrine\ORM\EntityManager;
-use App\Controllers\HomeController;
-
 $container = new League\Container\Container;
 
 $container->delegate(

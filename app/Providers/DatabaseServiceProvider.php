@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
+use Doctrine\ORM\EntityManager;
 use League\Container\ServiceProvider\AbstractServiceProvider;
 
 class DatabaseServiceProvider extends AbstractServiceProvider
