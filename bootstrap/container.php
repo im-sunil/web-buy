@@ -1,5 +1,7 @@
 <?php
 
+use Doctrine\ORM\EntityManager;
+use App\Controllers\HomeController;
 use App\Providers\AppServiceProvider;
 
 $container = new League\Container\Container;
