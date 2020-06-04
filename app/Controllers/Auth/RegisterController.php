@@ -2,6 +2,7 @@
 
 namespace App\Controllers\Auth;
 
+use App\Jwt\Auth;
 use App\Models\User;
 use Valitron\Validator;
 use App\Hashing\BcryptHasher;
@@ -25,7 +26,8 @@ class RegisterController extends Controller
             return $this->json($validator->errors(), 422);
         }
         $user = $this->createUser($request->getParsedBody());
-        return $this->json($user);
+
+        return $this->json(Auth::encode());
     }
 
     protected function createUser($data)

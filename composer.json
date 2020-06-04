@@ -25,7 +25,8 @@
         "defuse/php-encryption": "^2.2",
         "vlucas/valitron": "^1.4",
         "asm89/stack-cors": "^2.0",
-        "tuupola/cors-middleware": "^1.1"
+        "tuupola/cors-middleware": "^1.1",
+        "firebase/php-jwt": "^5.2"
     },
     "require-dev": {
         "symfony/var-dumper": "^5.1"
