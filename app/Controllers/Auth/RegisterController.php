@@ -27,7 +27,11 @@ class RegisterController extends Controller
         }
         $user = $this->createUser($request->getParsedBody());
 
-        return $this->json(Auth::encode());
+        return $this->json([
+            'message' => 'Register successfully.',
+            'isLogin' => true,
+            'token' => Auth::encode()
+        ]);
     }
 
     protected function createUser($data)
@@ -35,9 +39,9 @@ class RegisterController extends Controller
         $user = new User($this->db);
 
         $user->fill([
-            'email' => $data['email'],
-            'mobile' => $data['mobile'],
-            'username' => $data['username'],
+            'email' => $data['email'] ?? null,
+            'mobile' => $data['mobile'] ?? null,
+            'username' => $data['username'] ?? null,
             'password' => (new BcryptHasher)->create($data['password'])
         ]);
 
@@ -65,6 +69,7 @@ class RegisterController extends Controller
 
         $v->rule('lengthMin', 'password', 6);
         $v->rule('lengthMax', 'password', 20);
+
         return $v;
     }
 }
