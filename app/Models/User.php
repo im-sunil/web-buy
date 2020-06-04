@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Model;
 use Doctrine\ORM\EntityManager;
 
 /**
@@ -20,6 +19,11 @@ class User extends Model implements \JsonSerializable
      * @Id @Column(name="id", type="integer", nullable=false)
      */
     protected $id;
+
+    /**
+    * @uiid @Column(name="uiid", type="string", nullable=false)
+    */
+    protected $uiid;
 
     /**
      * @first_name @Column(type="string")
@@ -68,6 +72,7 @@ class User extends Model implements \JsonSerializable
     public function jsonSerialize()
     {
         return [
+            'uiid' => $this->uiid,
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
             'username' => $this->username,

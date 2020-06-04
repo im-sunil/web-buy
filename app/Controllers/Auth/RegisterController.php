@@ -4,6 +4,7 @@ namespace App\Controllers\Auth;
 
 use App\Jwt\Auth;
 use App\Models\User;
+use Ramsey\Uuid\Uuid;
 use Valitron\Validator;
 use App\Hashing\BcryptHasher;
 use App\Controllers\Controller;
@@ -30,7 +31,7 @@ class RegisterController extends Controller
         return $this->json([
             'message' => 'Register successfully.',
             'isLogin' => true,
-            'token' => Auth::encode()
+            'token' => Auth::encode($user)
         ]);
     }
 
@@ -39,6 +40,7 @@ class RegisterController extends Controller
         $user = new User($this->db);
 
         $user->fill([
+            'uiid' => $uuid = Uuid::uuid4()->toString(),
             'email' => $data['email'] ?? null,
             'mobile' => $data['mobile'] ?? null,
             'username' => $data['username'] ?? null,
@@ -64,7 +66,7 @@ class RegisterController extends Controller
         ]);
         $v->rule('length', 'mobile', 10)->message('{field} must be 10 digits long');
 
-        $v->rule('lengthMin', 'username', 6);
+        $v->rule('lengthMin', 'username', 2);
         $v->rule('lengthMax', 'username', 20);
 
         $v->rule('lengthMin', 'password', 6);

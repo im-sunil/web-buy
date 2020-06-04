@@ -20,7 +20,7 @@ $router->map('GET', '/token', function (ServerRequestInterface $request) : Respo
     $response = new Laminas\Diactoros\Response;
 
     $a = Auth::decode($request->getHeaderLine('Authorization'));
-    dump($a);
+    dump('1', $decoded_array = (array) $a);
     $response->getBody()->write('<h1>Hello, World!</h1>');
     return $response;
 });
