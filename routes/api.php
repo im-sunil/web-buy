@@ -8,6 +8,6 @@ $router->get('/', [
 ])->setName('home');
 
 //  auth
-$router->post('/register', [
+$router->post('/api/register', [
     RegisterController::class, 'store'
 ])->setName('auth.register');

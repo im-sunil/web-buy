@@ -19,7 +19,6 @@ class RegisterController extends Controller
 
     public function store(RequestInterface $request)
     {
-        dump($request->getParsedBody());
         $validator = $this->validateRegistration($request);
         if (!$validator->validate()) {
             return $this->json($validator->errors(), 422);
@@ -29,15 +28,22 @@ class RegisterController extends Controller
 
     protected function validateRegistration($request)
     {
-        $validator = new Validator($request->getParsedBody());
+        $v = new Validator($request->getParsedBody());
 
-        $validator->mapFieldsRules([
+        $v->mapFieldsRules([
             'email' => ['required', 'email', ['exists', User::class]],
-            'name' => ['required'],
-            'password' => ['required'],
+            'username' => ['required'],
+            'mobile' => ['required', 'numeric'],
+            'password' => ['required', ],
             'password_confirmation' => ['required', ['equals', 'password']],
         ]);
+        $v->rule('length', 'mobile', 10)->message('{field} must be 10 digits long');
 
-        return $validator;
+        $v->rule('lengthMin', 'username', 6);
+        $v->rule('lengthMax', 'username', 20);
+
+        $v->rule('lengthMin', 'password', 6);
+        $v->rule('lengthMax', 'password', 20);
+        return $v;
     }
 }
