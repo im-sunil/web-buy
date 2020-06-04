@@ -8,6 +8,8 @@ $router->get('/', [
 ])->setName('home');
 
 //  auth
-$router->post('/api/register', [
-    RegisterController::class, 'store'
-])->setName('auth.register');
+$router->group('/api/user', function (\League\Route\RouteGroup $route) {
+    $route->post('/register', [
+        RegisterController::class, 'store'
+    ])->setName('auth.register');
+});

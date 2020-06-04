@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\User;
 use Doctrine\ORM\EntityManager;
 use Laminas\Diactoros\Response;
 use App\Controllers\HomeController;
@@ -49,6 +50,9 @@ class AppServiceProvider extends AbstractServiceProvider implements BootableServ
         $container->add(RegisterController::class)
         ->addArgument(EntityManager::class)
         ->addArgument(new Response);
+
+        $container->add(User::class)
+        ->addArgument(EntityManager::class);
 
         $container->add(Controller::class)
         ->addArgument(new Response);

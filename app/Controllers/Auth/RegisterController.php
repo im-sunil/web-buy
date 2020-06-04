@@ -4,6 +4,7 @@ namespace App\Controllers\Auth;
 
 use App\Models\User;
 use Valitron\Validator;
+use App\Hashing\BcryptHasher;
 use App\Controllers\Controller;
 use Doctrine\ORM\EntityManager;
 use Laminas\Diactoros\Response;
@@ -23,7 +24,25 @@ class RegisterController extends Controller
         if (!$validator->validate()) {
             return $this->json($validator->errors(), 422);
         }
-        return $this->json(['validator']);
+        $user = $this->createUser($request->getParsedBody());
+        return $this->json($user);
+    }
+
+    protected function createUser($data)
+    {
+        $user = new User($this->db);
+
+        $user->fill([
+            'email' => $data['email'],
+            'mobile' => $data['mobile'],
+            'username' => $data['username'],
+            'password' => (new BcryptHasher)->create($data['password'])
+        ]);
+
+        $this->db->persist($user);
+        $this->db->flush();
+
+        return $user;
     }
 
     protected function validateRegistration($request)
@@ -32,8 +51,8 @@ class RegisterController extends Controller
 
         $v->mapFieldsRules([
             'email' => ['required', 'email', ['exists', User::class]],
-            'username' => ['required'],
-            'mobile' => ['required', 'numeric'],
+            'username' => ['required', ['exists', User::class]],
+            'mobile' => ['required', 'numeric', ['exists', User::class]],
             'password' => ['required', ],
             'password_confirmation' => ['required', ['equals', 'password']],
         ]);

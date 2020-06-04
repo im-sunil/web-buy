@@ -47,6 +47,11 @@ class User extends Model implements \JsonSerializable
     protected $password;
 
     /**
+    * @mobile @Column(type="string")
+    */
+    protected $mobile;
+
+    /**
      * @remember_token @Column(type="string")
      */
     protected $remember_token;
@@ -67,6 +72,7 @@ class User extends Model implements \JsonSerializable
             'last_name' => $this->last_name,
             'username' => $this->username,
             'email' => $this->email,
+            'mobile' => $this->mobile,
         ];
     }
 }
