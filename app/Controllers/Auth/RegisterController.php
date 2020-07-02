@@ -31,7 +31,8 @@ class RegisterController extends Controller
         return $this->json([
             'message' => 'Register successfully.',
             'isLogin' => true,
-            'token' => Auth::encode($user)
+            'token' => Auth::encode($user),
+            'user' => $user
         ]);
     }
 
